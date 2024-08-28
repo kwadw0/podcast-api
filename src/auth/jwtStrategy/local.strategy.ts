@@ -16,9 +16,6 @@ export class LocalStrategy extends PassportStrategy(Strategy){
     async validate(email: string, password: string){
         try {
             const validatedUser = await this.authservice.validateUser(email, password);
-            if (!validatedUser) {
-                throw new UnauthorizedException('Invalid Credentials');
-            }
             return validatedUser;
         } catch (error) {
             console.log(error);
@@ -26,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy){
                 throw new NotFoundException('User not found.');
             }
             if (error.status === 401) {
-                throw new UnauthorizedException('Invalid Credentials.');
+                throw new UnauthorizedException('Invalid Credentials');
             }
             throw new InternalServerErrorException();
         }

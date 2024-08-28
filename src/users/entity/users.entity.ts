@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import { BaseEntity } from "src/shared/baseEntity/base.entity";
 
 
-export type UserDocument = HydratedDocument<User>
-@Schema()
-export class User extends BaseEntity{
-    [x: string]: any;
+export type UserDocument = HydratedDocument<User>;
+@Schema({
+    timestamps: true
+})
+export class User{
     @Prop()
     firstName: string;
 
