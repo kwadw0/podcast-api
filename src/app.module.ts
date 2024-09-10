@@ -5,8 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PodcastService } from './podcast/podcast.service';
 import { PodcastModule } from './podcast/podcast.module';
+import { EpisodesModule } from './episodes/episodes.module';
+import { PlaylistModule } from './playlist/playlist.module';
 
 
 @Module({
@@ -15,9 +16,6 @@ import { PodcastModule } from './podcast/podcast.module';
       isGlobal: true,
       envFilePath:'.env'
     }),
-    AuthModule, 
-    UsersModule,
-    PodcastModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -25,6 +23,11 @@ import { PodcastModule } from './podcast/podcast.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule, 
+    UsersModule,
+    PodcastModule,
+    EpisodesModule,
+    PlaylistModule,
 
   ],
   controllers: [AppController],

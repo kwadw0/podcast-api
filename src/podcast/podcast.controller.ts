@@ -1,9 +1,10 @@
-import { BadRequestException, Body, Controller, DefaultValuePipe, Delete, Get, Inject, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, DefaultValuePipe, Delete, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PodcastService } from './podcast.service';
 import { PodcastDto, UpdatePodcastDto } from './dto/podcast.dto';
 import { Podcast } from './entity/podcast.entity';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 
 @ApiTags('Podcast')
@@ -13,11 +14,11 @@ export class PodcastController {
         private readonly podcastService: PodcastService
     ){}
     @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(FileInterceptor('coverImage'))
+    @ApiConsumes('multipart/form-data')
     @Post('')
-    async createPodcast(@Body() podcastDto: PodcastDto): Promise<Podcast>{
-    
+    async createPodcast(@Body() podcastDto: PodcastDto, @UploadedFile() files: Express.Multer.File): Promise<Podcast>{
         return await this.podcastService.createPodcast(podcastDto);
-
     }
 
     @UseGuards(AuthGuard('jwt'))

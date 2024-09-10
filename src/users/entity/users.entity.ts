@@ -7,6 +7,7 @@ export type UserDocument = HydratedDocument<User>;
     timestamps: true
 })
 export class User{
+    [x: string]: any;
     @Prop()
     firstName: string;
 
